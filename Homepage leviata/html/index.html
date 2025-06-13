@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leviatã - E-commerce de Jogos Indie</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- External Resources -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="../images/logo.png" alt="Leviatã" class="logo-image">
+                    <div class="logo-text">
+                        <h1 class="logo">Leviatã</h1>
+                        <span class="subtitle">Jogos Indie</span>
+                    </div>
+                </div>
+                
+                <div class="search-section">
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar jogos..." class="search-input">
+                    </div>
+                </div>
+                
+                <div class="user-section">
+                    <div class="user-info">
+                        <i class="fas fa-user"></i>
+                        <span id="userName">JeanMatei</span>
+                    </div>
+                    <button id="cartButton" class="cart-button">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cartCount" class="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner -->
+    <section class="banner">
+        <div class="container">
+            <div class="banner-content">
+                <div class="banner-text">
+                    <h2 class="banner-title">Descubra Jogos Indie Incríveis</h2>
+                    <p class="banner-description">Explore mundos únicos criados por desenvolvedores independentes</p>
+                    <button class="banner-button">Explorar Jogos</button>
+                </div>
+                <div class="banner-image">
+                    <img src="../images/hollow knight.webp" alt="Hollow Knight" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="container">
+            <h2 class="section-title">Jogos em Destaque</h2>
+            <div id="productsGrid" class="products-grid">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner hidden">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="closeProductModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-image">
+                <img id="modalProductImage" src="" alt="">
+                <div id="modalProductDiscount" class="product-discount hidden"></div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-header">
+                    <h2 id="modalProductName"></h2>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <span id="modalProductRating"></span>
+                    </div>
+                </div>
+                <p id="modalProductDescription"></p>
+                <p class="product-developer">Desenvolvido por <span id="modalProductDeveloper"></span></p>
+                <p class="product-genre">Gênero: <span id="modalProductGenre"></span></p>
+                <div class="modal-footer">
+                    <div class="price-section">
+                        <span id="modalProductPrice" class="current-price"></span>
+                        <span id="modalProductOriginalPrice" class="original-price hidden"></span>
+                        <span id="modalProductDiscountBadge" class="discount-badge hidden"></span>
+                    </div>
+                    <button id="modalAddToCart" class="add-to-cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        Adicionar ao Carrinho
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content cart-modal">
+            <div class="modal-header">
+                <h2>Carrinho de Compras</h2>
+                <button class="modal-close" id="closeCartModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems" class="cart-items">
+                    <!-- Cart items will be loaded here -->
+                </div>
+                <div id="emptyCartMessage" class="empty-cart hidden">
+                    <p>Seu carrinho está vazio</p>
+                </div>
+            </div>
+            <div class="modal-footer" id="cartFooter">
+                <div class="cart-total">
+                    <span>Total: R$ <span id="cartTotal">0.00</span></span>
+                </div>
+                <div class="cart-actions">
+                    <button id="continueShopping" class="continue-btn">Continuar Comprando</button>
+                    <button id="proceedToCheckout" class="checkout-btn">
+                        <i class="fas fa-credit-card"></i>
+                        Finalizar Compra
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content checkout-modal">
+            <div class="modal-header">
+                <h2>Finalizar Compra</h2>
+                <button class="modal-close" id="closeCheckoutModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="checkoutForm" class="checkout-form">
+                    <div class="form-group">
+                        <label for="cardName">Nome no Cartão</label>
+                        <input type="text" id="cardName" value="JeanMatei" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardNumber">Número do Cartão</label>
+                        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cardExpiry">Validade</label>
+                            <input type="text" id="cardExpiry" placeholder="MM/AA" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardCvv">CVV</label>
+                            <input type="text" id="cardCvv" placeholder="123" required>
+                        </div>
+                    </div>
+                </form>
+                <div class="checkout-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span>R$ <span id="checkoutSubtotal">0.00</span></span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Taxa de processamento:</span>
+                        <span>R$ 0,00</span>
+                    </div>
+                    <div class="summary-row total-row">
+                        <span>Total:</span>
+                        <span>R$ <span id="checkoutTotal">0.00</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmPayment" class="payment-btn">
+                    <i class="fas fa-credit-card"></i>
+                    <span id="paymentButtonText">Confirmar Pagamento</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div id="successMessage" class="success-message hidden">
+        <div class="success-content">
+            <i class="fas fa-check-circle"></i>
+            <h3>Pagamento Processado com Sucesso!</h3>
+            <p>ID do pedido: <span id="orderId"></span></p>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="../js/script.js"></script>
+</body>
+</html>
