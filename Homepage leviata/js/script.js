@@ -5,7 +5,7 @@ const jogos = [
         nome: "Hollow Knight",
         desenvolvedor: "Team Cherry",
         preco: 24.99,
-        imagem: "https://cdn.cloudflare.steamstatic.com/steam/apps/367520/header.jpg",
+        imagem: "https://www.europanet.com.br/image_gen/resizeimg.php?cod_produto=6001605",
         avaliacao: 4.9
     },
     {
@@ -13,7 +13,7 @@ const jogos = [
         nome: "Five Nights at Freddy's",
         desenvolvedor: "Scott Cawthon",
         preco: 19.99,
-        imagem: "https://cdn.cloudflare.steamstatic.com/steam/apps/319510/header.jpg",
+        imagem: "https://sm.ign.com/ign_br/gallery/f/five-night/five-nights-at-freddys-character-posters_1dbd.jpg",
         avaliacao: 4.8
     },
     {
@@ -21,7 +21,7 @@ const jogos = [
         nome: "Cuphead",
         desenvolvedor: "Studio MDHR",
         preco: 29.99,
-        imagem: "https://cdn.cloudflare.steamstatic.com/steam/apps/268910/header.jpg",
+        imagem: "https://upload.wikimedia.org/wikipedia/pt/c/c1/Cuphead_capa.png",
         avaliacao: 4.7
     },
     {
@@ -29,7 +29,7 @@ const jogos = [
         nome: "Katana ZERO",
         desenvolvedor: "Askiisoft",
         preco: 14.99,
-        imagem: "https://cdn.cloudflare.steamstatic.com/steam/apps/460950/header.jpg",
+        imagem: "https://bdjogos.com.br/capas/9013-katana-zero-capa-1.jpg",
         avaliacao: 4.8
     },
     {
@@ -37,7 +37,7 @@ const jogos = [
         nome: "Castle Crashers",
         desenvolvedor: "The Behemoth",
         preco: 14.99,
-        imagem: "https://cdn.cloudflare.steamstatic.com/steam/apps/204360/header.jpg",
+        imagem: "https://bdjogos.com.br/capas/16562-castle-crashers-remastered-xbox-one-capa-1.jpg",
         avaliacao: 4.7
     },
     {
@@ -45,7 +45,7 @@ const jogos = [
         nome: "Minecraft",
         desenvolvedor: "Mojang",
         preco: 29.99,
-        imagem: "https://cdn.cloudflare.steamstatic.com/steam/apps/524220/header.jpg",
+        imagem: "https://i.pinimg.com/736x/e5/7b/54/e57b54b6916bf1c603b9dfa7b4d072e6.jpg",
         avaliacao: 4.9
     },
     {
@@ -53,7 +53,7 @@ const jogos = [
         nome: "Plants vs. Zombies",
         desenvolvedor: "PopCap Games",
         preco: 9.99,
-        imagem: "https://cdn.cloudflare.steamstatic.com/steam/apps/3590/header.jpg",
+        imagem: "https://m.media-amazon.com/images/I/91-PU-8YgpL.jpg",
         avaliacao: 4.6
     },
     {
@@ -61,7 +61,7 @@ const jogos = [
         nome: "Celeste",
         desenvolvedor: "Extremely OK Games",
         preco: 19.99,
-        imagem: "https://cdn.cloudflare.steamstatic.com/steam/apps/504230/header.jpg",
+        imagem: "https://upload.wikimedia.org/wikipedia/commons/6/68/Celeste_box_art_cropped.png",
         avaliacao: 4.9
     }
 ];
@@ -194,16 +194,54 @@ function criarCardJogo(jogo) {
     `;
 }
 
+// Função para filtrar jogos
+function filtrarJogos(termo) {
+    if (!termo) {
+        return jogos;
+    }
+    termo = termo.toLowerCase();
+    return jogos.filter(jogo => 
+        jogo.nome.toLowerCase().includes(termo) ||
+        jogo.desenvolvedor.toLowerCase().includes(termo)
+    );
+}
+
 // Função para renderizar os jogos
-function renderizarJogos() {
+function renderizarJogos(jogosFiltrados = jogos) {
     const gridJogos = document.getElementById('productsGrid');
     if (gridJogos) {
-        gridJogos.innerHTML = jogos.map(jogo => criarCardJogo(jogo)).join('');
+        gridJogos.innerHTML = jogosFiltrados.map(jogo => criarCardJogo(jogo)).join('');
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     renderizarJogos();
+
+    // Adicionar funcionalidade de busca
+    const searchInput = document.getElementById('searchInput');
+    const clearSearchBtn = document.getElementById('clearSearch');
+    
+    // Busca em tempo real
+    searchInput.addEventListener('input', (e) => {
+        const termo = e.target.value;
+        const jogosFiltrados = filtrarJogos(termo);
+        renderizarJogos(jogosFiltrados);
+    });
+    
+    // Busca ao pressionar Enter
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const termo = e.target.value;
+            const jogosFiltrados = filtrarJogos(termo);
+            renderizarJogos(jogosFiltrados);
+        }
+    });
+
+    // Limpar busca
+    clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        renderizarJogos();
+    });
 
     // Event listeners para modais
     document.getElementById('cartButton').addEventListener('click', () => {

@@ -120,6 +120,27 @@ body {
     background: rgba(255, 255, 255, 0.1);
 }
 
+.search-clear {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    display: none;
+}
+
+.search-clear:hover {
+    color: var(--text-primary);
+}
+
+.search-input:not(:placeholder-shown) + .search-clear {
+    display: block;
+}
+
 .search-icon {
     position: absolute;
     left: 12px;
@@ -184,10 +205,10 @@ body {
     margin: 3rem 0 4rem 0;
     overflow: hidden;
     position: relative;
-    min-height: 350px;
+    min-height: 250px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
     display: block;
-    padding: 4rem 3rem;
+    padding: 2.5rem 3rem;
 }
 
 .banner-content {
